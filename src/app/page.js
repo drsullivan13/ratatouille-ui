@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { FaBookOpen, FaSearch } from 'react-icons/fa';
 import SearchForm from './components/SearchForm';
 import RecipeList from './components/RecipeList';
 
@@ -64,15 +66,87 @@ export default function Home() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <SearchForm formData={formData} setFormData={setFormData} handleSearch={handleSearch} />
-      {loading && <p className="text-center text-gray-500 mt-4">Loading...</p>}
-      {error && <p className="text-center text-red-500 mt-4">Error: {error}</p>}
-      {recipes.length > 0 ? (
-        <RecipeList recipes={recipes} />
-      ) : (
-        !loading && <p className="text-center text-gray-500 mt-4">Enter a dish type to search for recipes.</p>
-      )}
+    <div className="min-h-screen bg-amber-50 py-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="container mx-auto px-4 max-w-4xl"
+      >
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <motion.div
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="inline-block mb-4"
+          >
+            <FaBookOpen className="text-6xl text-amber-600" />
+          </motion.div>
+          <h1 className="text-4xl md:text-5xl font-serif text-amber-900 mb-4">
+            Recipe Generator
+          </h1>
+          <p className="text-lg text-amber-800">
+            Discover personalized recipes tailored to your preferences
+          </p>
+        </div>
+
+        {/* Search Section */}
+        <div className="mb-12">
+          <SearchForm 
+            formData={formData} 
+            setFormData={setFormData} 
+            handleSearch={handleSearch} 
+          />
+        </div>
+
+        {/* Results Section */}
+        <div>
+          {loading && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center p-8"
+            >
+              <div className="inline-block animate-spin text-amber-600 mb-4">
+                <FaSearch className="text-3xl" />
+              </div>
+              <p className="text-amber-800">Crafting your recipes...</p>
+            </motion.div>
+          )}
+
+          {error && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="bg-red-50 border border-red-200 rounded-lg p-4 text-center text-red-600"
+            >
+              Error: {error}
+            </motion.div>
+          )}
+
+          {recipes.length > 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <RecipeList recipes={recipes} />
+            </motion.div>
+          ) : (
+            !loading && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center p-8 bg-white rounded-lg shadow-sm"
+              >
+                <p className="text-amber-800">
+                  Enter a dish type above to discover delicious recipes
+                </p>
+              </motion.div>
+            )
+          )}
+        </div>
+      </motion.div>
     </div>
   );
 }

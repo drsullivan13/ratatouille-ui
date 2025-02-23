@@ -12,66 +12,78 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
     };
   
     return (
-      <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }} className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h1 className="text-2xl font-bold mb-4 text-gray-800">Recipe Search</h1>
-        <input
-          type="text"
-          name="dishType"
-          value={formData.dishType}
-          onChange={handleChange}
-          placeholder="Enter dish type (e.g., Meatloaf)"
-          required
-          className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold mb-2 text-gray-700">Dietary Preferences</h3>
-          <div className="flex flex-wrap gap-4">
+      <form 
+        onSubmit={(e) => { e.preventDefault(); handleSearch(); }} 
+        className="bg-white p-8 rounded-xl shadow-lg"
+      >
+        <div className="mb-8">
+          <input
+            type="text"
+            name="dishType"
+            value={formData.dishType}
+            onChange={handleChange}
+            placeholder="What would you like to cook?"
+            required
+            className="w-full p-4 text-lg border-b-2 border-amber-200 focus:border-amber-600 focus:outline-none bg-transparent text-amber-900 placeholder-amber-400"
+          />
+        </div>
+  
+        <div className="mb-8">
+          <h3 className="text-xl font-serif text-amber-900 mb-4">Dietary Preferences</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {['gluten free', 'dairy free', 'vegan', 'vegetarian'].map((option) => (
-              <label key={option} className="flex items-center">
+              <label key={option} className="flex items-center space-x-2 text-amber-800">
                 <input
                   type="checkbox"
                   name="dietary"
                   value={option}
                   checked={formData.dietary.includes(option)}
                   onChange={handleChange}
-                  className="mr-2"
+                  className="form-checkbox h-5 w-5 text-amber-600 rounded border-amber-300"
                 />
-                <span className="text-gray-700">{option.charAt(0).toUpperCase() + option.slice(1)}</span>
+                <span className="capitalize">{option}</span>
               </label>
             ))}
           </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">
-            Servings:
-            <input
-              type="number"
-              name="servings"
-              value={formData.servings}
-              onChange={handleChange}
-              min="1"
-              required
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </label>
+  
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div>
+            <label className="block text-amber-900 mb-2 font-serif">
+              Servings
+              <input
+                type="number"
+                name="servings"
+                value={formData.servings}
+                onChange={handleChange}
+                min="1"
+                required
+                className="w-full mt-1 p-2 border-2 border-amber-200 rounded-lg focus:border-amber-600 focus:outline-none"
+              />
+            </label>
+          </div>
+          <div>
+            <label className="block text-amber-900 mb-2 font-serif">
+              Difficulty
+              <select
+                name="difficulty"
+                value={formData.difficulty}
+                onChange={handleChange}
+                className="w-full mt-1 p-2 border-2 border-amber-200 rounded-lg focus:border-amber-600 focus:outline-none"
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </label>
+          </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">
-            Difficulty:
-            <select
-              name="difficulty"
-              value={formData.difficulty}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </label>
-        </div>
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200">
-          Search Recipes
+  
+        <button 
+          type="submit" 
+          className="w-full bg-amber-600 text-white p-4 rounded-lg hover:bg-amber-700 transition duration-300 font-medium text-lg"
+        >
+          Generate Recipes
         </button>
       </form>
     );
