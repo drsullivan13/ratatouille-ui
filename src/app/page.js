@@ -12,6 +12,7 @@ export default function Home() {
     dietary: [],
     servings: 4,
     difficulty: 'medium',
+    recipeCount: 3
   });
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -83,7 +84,7 @@ export default function Home() {
             <FaBookOpen className="text-6xl text-amber-600" />
           </motion.div>
           <h1 className="text-4xl md:text-5xl font-serif text-amber-900 mb-4">
-            Recipe Generator
+            Ratatouille
           </h1>
           <p className="text-lg text-amber-800">
             Discover personalized recipes tailored to your preferences

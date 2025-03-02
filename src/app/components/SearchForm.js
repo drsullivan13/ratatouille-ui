@@ -9,7 +9,13 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
       } else {
         setFormData((prev) => ({ ...prev, [name]: value }));
       }
-    };
+    }
+
+    const handleRecipeCountChange = (value) => {
+      // Ensure value is between 1 and 10
+      const count = Math.min(Math.max(1, value), 10);
+      setFormData({...formData, recipeCount: count});
+    }
   
     return (
       <form 
@@ -78,6 +84,36 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
             </label>
           </div>
         </div>
+
+        <div className="mb-4">
+        <label className="block text-amber-800 mb-2">Number of Recipes (1-10)</label>
+        <div className="flex items-center">
+          <button 
+            type="button"
+            onClick={() => handleRecipeCountChange(formData.recipeCount - 1)}
+            className="bg-amber-500 text-white w-10 h-10 rounded-l flex items-center justify-center hover:bg-amber-600 transition"
+            disabled={formData.recipeCount <= 1}
+          >
+            -
+          </button>
+          <input
+            type="number"
+            min="1"
+            max="10"
+            value={formData.recipeCount}
+            onChange={(e) => handleRecipeCountChange(parseInt(e.target.value) || 1)}
+            className="w-16 h-10 text-center border-t border-b border-amber-300 focus:outline-none"
+          />
+          <button 
+            type="button"
+            onClick={() => handleRecipeCountChange(formData.recipeCount + 1)}
+            className="bg-amber-500 text-white w-10 h-10 rounded-r flex items-center justify-center hover:bg-amber-600 transition"
+            disabled={formData.recipeCount >= 10}
+          >
+            +
+          </button>
+        </div>
+      </div>
   
         <button 
           type="submit" 
