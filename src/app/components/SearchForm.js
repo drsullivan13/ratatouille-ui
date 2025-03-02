@@ -5,16 +5,16 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
         setFormData((prev) => ({
           ...prev,
           dietary: checked ? [...prev.dietary, value] : prev.dietary.filter((item) => item !== value),
-        }));
+        }))
       } else {
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({ ...prev, [name]: value }))
       }
     }
 
     const handleRecipeCountChange = (value) => {
       // Ensure value is between 1 and 10
-      const count = Math.min(Math.max(1, value), 10);
-      setFormData({...formData, recipeCount: count});
+      const count = Math.min(Math.max(1, value), 10)
+      setFormData({...formData, recipeCount: count})
     }
   
     return (

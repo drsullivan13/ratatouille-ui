@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export async function POST(request) {
-  console.log(`MADE IT HERE`);
-  
+export async function POST(request) {  
   const apiUrl = process.env.RECIPE_API_URL;
   if (!apiUrl) {
     return NextResponse.json(

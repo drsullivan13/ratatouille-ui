@@ -61,6 +61,7 @@ export default function Home() {
         dietary: formData.dietary,
         servings: formData.servings,
         difficulty: formData.difficulty,
+        recipeCount: formData.recipeCount
       },
     };
     fetchRecipes(searchParams);
