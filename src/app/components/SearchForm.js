@@ -122,5 +122,5 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
           Generate Recipes
         </button>
       </form>
-    );
+    )
   }
