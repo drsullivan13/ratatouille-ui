@@ -11,6 +11,35 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
       }
     }
 
+    const handlePantryIngredientsChange = (e) => {
+      setFormData(prev => ({ 
+        ...prev, 
+        pantryIngredients: e.target.value
+      }))
+    }
+    
+    const handleKeyDown = (e) => {
+      if ((e.key === 'Enter' || e.key === ',') && formData.pantryIngredients.trim()) {
+        e.preventDefault()
+        const ingredient = formData.pantryIngredients.trim().replace(/,$/, '')
+        
+        if (ingredient && !formData.pantryIngredientsArray.includes(ingredient)) {
+          setFormData(prev => ({
+            ...prev,
+            pantryIngredients: '',
+            pantryIngredientsArray: [...prev.pantryIngredientsArray, ingredient]
+          }))
+        }
+      }
+    }
+    
+    const removeIngredient = (index) => {
+      setFormData(prev => ({
+        ...prev,
+        pantryIngredientsArray: prev.pantryIngredientsArray.filter((_, i) => i !== index)
+      }))
+    }
+
     const handleRecipeCountChange = (value) => {
       // Ensure value is between 1 and 10
       const count = Math.min(Math.max(1, value), 10)
@@ -32,6 +61,44 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
             required
             className="w-full p-4 text-lg border-b-2 border-amber-200 focus:border-amber-600 focus:outline-none bg-transparent text-amber-900 placeholder-amber-400"
           />
+        </div>
+        
+        <div className="mb-8">
+          <label className="block text-amber-900 font-serif mb-2">
+            Pantry Ingredients
+            <div className="relative">
+              <input
+                type="text"
+                value={formData.pantryIngredients || ''}
+                onChange={handlePantryIngredientsChange}
+                onKeyDown={handleKeyDown}
+                placeholder="Type ingredient and press Enter"
+                className="w-full p-3 mt-1 border-2 border-amber-200 rounded-lg focus:border-amber-600 focus:outline-none text-amber-800 placeholder-amber-800/60"
+              />
+              <p className="mt-1 text-xs text-amber-700">Add ingredients from your pantry to use in recipes</p>
+              
+              {formData.pantryIngredientsArray && formData.pantryIngredientsArray.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {formData.pantryIngredientsArray.map((ingredient, index) => (
+                    <span 
+                      key={index} 
+                      className="inline-flex items-center bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-sm border border-amber-200 group hover:bg-amber-200 transition-colors"
+                    >
+                      {ingredient}
+                      <button
+                        type="button"
+                        onClick={() => removeIngredient(index)}
+                        className="ml-1.5 w-4 h-4 rounded-full inline-flex items-center justify-center text-amber-800/70 hover:bg-amber-300 hover:text-amber-900"
+                        aria-label={`Remove ${ingredient}`}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </label>
         </div>
   
         <div className="mb-8">

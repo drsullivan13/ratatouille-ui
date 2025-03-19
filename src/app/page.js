@@ -12,7 +12,9 @@ export default function Home() {
     dietary: [],
     servings: 4,
     difficulty: 'medium',
-    recipeCount: 3
+    recipeCount: 3,
+    pantryIngredients: '',
+    pantryIngredientsArray: []
   });
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,7 +63,8 @@ export default function Home() {
         dietary: formData.dietary,
         servings: formData.servings,
         difficulty: formData.difficulty,
-        recipeCount: formData.recipeCount
+        recipeCount: formData.recipeCount,
+        pantryIngredients: formData.pantryIngredientsArray
       },
     };
     fetchRecipes(searchParams);

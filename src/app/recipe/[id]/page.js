@@ -64,8 +64,8 @@ export default function RecipePage() {
 
           {/* Quick Info */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-amber-50">
-            <QuickInfoCard icon={<BiTime />} title="Prep Time" value={recipe.prepTime} />
-            <QuickInfoCard icon={<FaRegClock />} title="Cook Time" value={recipe.cookTime} />
+            <QuickInfoCard icon={<BiTime />} title="Prep Time" value={`${recipe.prepTime} min`} />
+            <QuickInfoCard icon={<FaRegClock />} title="Cook Time" value={`${recipe.cookTime} min`} />
             <QuickInfoCard icon={<BiUser />} title="Servings" value={recipe.servings} />
             <QuickInfoCard icon={<FaUtensils />} title="Difficulty" value={recipe.difficulty} />
           </div>
