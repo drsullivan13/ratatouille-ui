@@ -1,4 +1,4 @@
-export default function SearchForm({ formData, setFormData, handleSearch }) {
+export default function SearchForm({ formData, setFormData, handleSearch, hasApiKey }) {
     const handleChange = (e) => {
       const { name, value, type, checked } = e.target;
       if (type === 'checkbox') {
@@ -188,12 +188,27 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
         </div>
       </div>
   
-        <button 
-          type="submit" 
-          className="w-full bg-teal-600 text-white p-4 rounded-lg hover:bg-teal-700 transition duration-300 font-medium text-lg font-serif shadow-sm"
-        >
-          Generate Recipes
-        </button>
+        {hasApiKey ? (
+          <button 
+            type="submit" 
+            className="w-full bg-teal-600 text-white p-4 rounded-lg hover:bg-teal-700 transition duration-300 font-medium text-lg font-serif shadow-sm"
+          >
+            Generate Recipes
+          </button>
+        ) : (
+          <div className="space-y-3">
+            <button 
+              type="button"
+              onClick={() => handleSearch()} // This will trigger the API key check and open settings
+              className="w-full bg-stone-100 border border-stone-200 text-stone-500 p-4 rounded-lg hover:bg-stone-200 transition duration-300 font-medium text-lg font-serif shadow-sm"
+            >
+              Generate Recipes
+            </button>
+            <p className="text-center text-sm text-stone-500 italic">
+              ⚙️ Please configure your LLM settings before generating recipes
+            </p>
+          </div>
+        )}
       </form>
     )
   }

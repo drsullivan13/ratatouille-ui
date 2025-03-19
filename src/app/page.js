@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FaBookOpen, FaSearch } from 'react-icons/fa';
 import SearchForm from './components/SearchForm';
 import RecipeList from './components/RecipeList';
+import SettingsMenu from './components/SettingsMenu';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -16,6 +17,11 @@ export default function Home() {
     pantryIngredients: '',
     pantryIngredientsArray: []
   });
+  const [settings, setSettings] = useState({
+    model: 'openai', // Default model
+    apiKey: ''
+  });
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -23,6 +29,7 @@ export default function Home() {
   useEffect(() => {
     const storedRecipes = sessionStorage.getItem('recipes');
     const storedFormData = sessionStorage.getItem('formData');
+    const storedModel = localStorage.getItem('ratatouille_model');
     
     if (storedRecipes) {
       setRecipes(JSON.parse(storedRecipes));
@@ -30,15 +37,34 @@ export default function Home() {
     if (storedFormData) {
       setFormData(JSON.parse(storedFormData));
     }
+    if (storedModel) {
+      setSettings(prev => ({
+        ...prev,
+        model: storedModel
+      }));
+    }
   }, []);
+
+  // Save only the selected model to localStorage
+  useEffect(() => {
+    localStorage.setItem('ratatouille_model', settings.model);
+  }, [settings.model]);
 
   const fetchRecipes = async (searchParams) => {
     setLoading(true);
     setError(null);
     try {
+      if (!settings.apiKey) {
+        throw new Error('Please provide an API key in settings');
+      }
+      
       const response = await fetch('/api/recipes', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-LLM-Model': settings.model,
+          'X-API-Key': settings.apiKey
+        },
         body: JSON.stringify(searchParams),
       });
       if (!response.ok) {
@@ -57,6 +83,13 @@ export default function Home() {
   };
 
   const handleSearch = () => {
+    // Check if API key is provided
+    if (!settings.apiKey) {
+      setError("Please select a model and provide an API key in settings");
+      setIsSettingsOpen(true); // Open settings panel
+      return;
+    }
+    
     const searchParams = {
       dishType: formData.dishType,
       preferences: {
@@ -98,12 +131,23 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Settings Menu */}
+        <div className="mb-4">
+          <SettingsMenu
+            settings={settings}
+            setSettings={setSettings}
+            isOpen={isSettingsOpen}
+            setIsOpen={setIsSettingsOpen}
+          />
+        </div>
+
         {/* Search Section */}
         <div className="mb-12">
           <SearchForm 
             formData={formData} 
             setFormData={setFormData} 
-            handleSearch={handleSearch} 
+            handleSearch={handleSearch}
+            hasApiKey={Boolean(settings.apiKey)}
           />
         </div>
 
@@ -147,9 +191,29 @@ export default function Home() {
                 animate={{ opacity: 1 }}
                 className="text-center p-8 bg-white rounded-lg shadow-sm"
               >
-                <p className="text-amber-800">
-                  Enter a dish type above to discover delicious recipes
-                </p>
+                {settings.apiKey ? (
+                  <p className="text-amber-800">
+                    Enter a dish type above to discover delicious recipes
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    <p className="text-amber-800">
+                      Welcome to Ratatouille! To get started:
+                    </p>
+                    <ol className="text-sm text-stone-700 list-decimal list-inside space-y-2 max-w-md mx-auto text-left">
+                      <li>Click the <span className="font-semibold">Settings</span> button above</li>
+                      <li>Select your preferred LLM model (OpenAI, Anthropic, Grok, or Perplexity)</li>
+                      <li>Enter your API key for the selected model</li>
+                      <li>Then you&apos;ll be ready to generate personalized recipes!</li>
+                    </ol>
+                    <button 
+                      onClick={() => setIsSettingsOpen(true)}
+                      className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
+                    >
+                      Open Settings
+                    </button>
+                  </div>
+                )}
               </motion.div>
             )
           )}

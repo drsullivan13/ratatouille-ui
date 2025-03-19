@@ -10,18 +10,39 @@ export async function POST(request) {
   }
 
   try {
+    // Extract model and API key from headers
+    const llmModel = request.headers.get('X-LLM-Model') || 'openai'
+    const apiKey = request.headers.get('X-API-Key')
+    
+    if (!apiKey) {
+      return NextResponse.json(
+        { message: 'API key is required' },
+        { status: 400 }
+      )
+    }
+    
     const body = await request.json()
+    
+    // Add model selection to the request body
+    const enhancedBody = {
+      ...body,
+      llmConfig: {
+        model: llmModel,
+        apiKey: apiKey
+      }
+    }
+    
     const response = await fetch(`${apiUrl}/api/recipes/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // Add any additional headers your API requires
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(enhancedBody),
     })
 
     if (!response.ok) {
-      throw new Error('Failed to fetch recipes from external API');
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || `Failed to fetch recipes from ${llmModel} API`);
     }
 
     const data = await response.json()
