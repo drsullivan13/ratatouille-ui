@@ -11,13 +11,18 @@ export default function RecipeList({ recipes }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300"
+          className="p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300"
+          style={{ 
+            backgroundColor: '#FFFCF5', 
+            borderColor: '#E3D6C3',
+            border: '1px solid #E3D6C3'
+          }}
         >
-          <h2 className="text-2xl font-serif text-amber-900 mb-3">{recipe.title}</h2>
-          <p className="text-amber-800 mb-4">{recipe.description}</p>
+          <h2 className="text-2xl font-serif text-stone-800 mb-3" style={{ fontFamily: 'Garamond, Baskerville, serif' }}>{recipe.title}</h2>
+          <p className="text-stone-700 mb-4" style={{ fontFamily: 'Garamond, Baskerville, serif' }}>{recipe.description}</p>
           <Link 
             href={`/recipe/${index}`} 
-            className="inline-flex items-center text-amber-600 hover:text-amber-700 transition duration-300"
+            className="inline-flex items-center text-teal-700 hover:text-teal-800 transition duration-300"
           >
             <span className="mr-2">View Recipe</span>
             <FaArrowRight />

@@ -30,16 +30,17 @@ export default function RecipePage() {
 
   if (error || !recipe) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F7F4EE' }}>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center p-8 bg-white rounded-lg shadow-lg"
+          className="text-center p-8 rounded-lg shadow-lg"
+          style={{ backgroundColor: '#FFFCF5', borderColor: '#E3D6C3', border: '1px solid #E3D6C3' }}
         >
-          <p className="text-red-500 text-lg mb-4">Recipe not found.</p>
+          <p className="text-red-500 text-lg mb-4" style={{ fontFamily: 'Garamond, Baskerville, serif' }}>Recipe not found.</p>
           <button 
             onClick={handleBackToSearch}
-            className="px-6 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition duration-300"
+            className="px-6 py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition duration-300 font-serif"
           >
             Back to Search
           </button>
@@ -49,21 +50,24 @@ export default function RecipePage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50 py-8">
+    <div className="min-h-screen py-8" style={{ backgroundColor: '#F7F4EE' }}>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="container mx-auto px-4 max-w-4xl"
       >
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="rounded-xl shadow-lg overflow-hidden" style={{ backgroundColor: '#FFFCF5', borderColor: '#E3D6C3', border: '1px solid #E3D6C3' }}>
           {/* Hero Section */}
-          <div className="bg-gradient-to-r from-amber-100 to-amber-50 p-8 border-b border-amber-100">
-            <h1 className="text-4xl md:text-5xl font-serif text-amber-900 mb-4">{recipe.title}</h1>
-            <p className="text-lg text-amber-800 italic">{recipe.description}</p>
+          <div className="p-8 border-b" style={{ 
+            background: 'linear-gradient(to right, #EFE9DB, #FFFCF5)', 
+            borderColor: '#E3D6C3' 
+          }}>
+            <h1 className="text-4xl md:text-5xl font-serif text-stone-800 mb-4" style={{ fontFamily: 'Garamond, Baskerville, serif' }}>{recipe.title}</h1>
+            <p className="text-lg text-stone-700 italic" style={{ fontFamily: 'Garamond, Baskerville, serif' }}>{recipe.description}</p>
           </div>
 
           {/* Quick Info */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-amber-50">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6" style={{ backgroundColor: '#F7F4EE' }}>
             <QuickInfoCard icon={<BiTime />} title="Prep Time" value={`${recipe.prepTime} min`} />
             <QuickInfoCard icon={<FaRegClock />} title="Cook Time" value={`${recipe.cookTime} min`} />
             <QuickInfoCard icon={<BiUser />} title="Servings" value={recipe.servings} />
@@ -73,14 +77,14 @@ export default function RecipePage() {
           <div className="p-8">
             {/* Ingredients Section */}
             <section className="mb-12">
-              <h2 className="text-2xl font-serif text-amber-900 mb-6 flex items-center">
-                <BiDish className="mr-2" /> Ingredients
+              <h2 className="text-2xl font-serif text-stone-800 mb-6 flex items-center border-b pb-2" style={{ fontFamily: 'Garamond, Baskerville, serif', borderColor: '#E3D6C3' }}>
+                <BiDish className="mr-2 text-teal-700" /> Ingredients
               </h2>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {recipe.ingredients.map((ing, idx) => (
-                  <li key={idx} className="flex items-center p-3 bg-amber-50 rounded-lg">
-                    <span className="font-medium">{ing.amount}{ing.unit}</span>
-                    <span className="ml-2 text-amber-900">{ing.item}</span>
+                  <li key={idx} className="flex items-center p-3 rounded-lg" style={{ backgroundColor: '#F7F4EE', border: '1px solid #EBE4D3' }}>
+                    <span className="font-medium font-serif">{ing.amount}{ing.unit}</span>
+                    <span className="ml-2 text-stone-700 font-serif">{ing.item}</span>
                   </li>
                 ))}
               </ul>
@@ -88,7 +92,7 @@ export default function RecipePage() {
 
             {/* Steps Section */}
             <section className="mb-12">
-              <h2 className="text-2xl font-serif text-amber-900 mb-6">Instructions</h2>
+              <h2 className="text-2xl font-serif text-stone-800 mb-6 border-b pb-2" style={{ fontFamily: 'Garamond, Baskerville, serif', borderColor: '#E3D6C3' }}>Instructions</h2>
               <div className="space-y-6">
                 {recipe.steps.map((step, idx) => (
                   <motion.div
@@ -98,10 +102,10 @@ export default function RecipePage() {
                     transition={{ delay: idx * 0.1 }}
                     className="flex"
                   >
-                    <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-amber-600 text-white rounded-full mr-4">
+                    <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-teal-600 text-white rounded-full mr-4">
                       {idx + 1}
                     </span>
-                    <p className="text-amber-900 leading-relaxed">{step}</p>
+                    <p className="text-stone-700 leading-relaxed font-serif">{step}</p>
                   </motion.div>
                 ))}
               </div>
@@ -111,10 +115,10 @@ export default function RecipePage() {
             {/* Keep your nutritional and additional information sections with similar styling */}
           </div>
 
-          <div className="p-8 bg-amber-50 border-t border-amber-100">
+          <div className="p-8 border-t" style={{ backgroundColor: '#F7F4EE', borderColor: '#E3D6C3' }}>
             <button 
               onClick={handleBackToSearch}
-              className="px-6 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition duration-300"
+              className="px-6 py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition duration-300 font-serif"
             >
               Back to Search
             </button>
@@ -128,11 +132,14 @@ export default function RecipePage() {
 // Helper component for quick info cards
 function QuickInfoCard({ icon, title, value }) {
   return (
-    <div className="flex items-center p-3 bg-white rounded-lg shadow-sm">
-      <span className="text-amber-600 text-xl mr-3">{icon}</span>
+    <div className="flex items-center p-3 rounded-lg shadow-sm" style={{ 
+      backgroundColor: '#FFFCF5', 
+      border: '1px solid #E3D6C3'
+    }}>
+      <span className="text-teal-700 text-xl mr-3">{icon}</span>
       <div>
-        <p className="text-sm text-amber-700">{title}</p>
-        <p className="font-medium text-amber-900">{value}</p>
+        <p className="text-sm text-stone-600 font-serif">{title}</p>
+        <p className="font-medium text-stone-800 font-serif">{value}</p>
       </div>
     </div>
   )

@@ -49,7 +49,12 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
     return (
       <form 
         onSubmit={(e) => { e.preventDefault(); handleSearch(); }} 
-        className="bg-white p-8 rounded-xl shadow-lg"
+        className="p-8 rounded-xl shadow-md border border-stone-200"
+        style={{ 
+          backgroundColor: '#FFFCF5', 
+          boxShadow: '0 4px 8px rgba(0,0,0,0.04)', 
+          borderColor: '#E3D6C3' 
+        }}
       >
         <div className="mb-8">
           <input
@@ -59,12 +64,12 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
             onChange={handleChange}
             placeholder="What would you like to cook?"
             required
-            className="w-full p-4 text-lg border-b-2 border-amber-200 focus:border-amber-600 focus:outline-none bg-transparent text-amber-900 placeholder-amber-400"
+            className="w-full p-4 text-lg border-b-2 border-stone-200 focus:border-teal-600 focus:outline-none bg-transparent text-stone-800 placeholder-stone-500 font-serif"
           />
         </div>
         
         <div className="mb-8">
-          <label className="block text-amber-900 font-serif mb-2">
+          <label className="block text-stone-700 font-serif mb-2">
             Pantry Ingredients
             <div className="relative">
               <input
@@ -73,22 +78,23 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
                 onChange={handlePantryIngredientsChange}
                 onKeyDown={handleKeyDown}
                 placeholder="Type ingredient and press Enter"
-                className="w-full p-3 mt-1 border-2 border-amber-200 rounded-lg focus:border-amber-600 focus:outline-none text-amber-800 placeholder-amber-800/60"
+                className="w-full p-3 mt-1 border border-stone-300 rounded-lg focus:border-teal-600 focus:outline-none text-stone-700 placeholder-stone-500 bg-white/80"
               />
-              <p className="mt-1 text-xs text-amber-700">Add ingredients from your pantry to use in recipes</p>
+              <p className="mt-1 text-xs text-stone-500 italic">Add ingredients from your pantry to use in recipes</p>
               
               {formData.pantryIngredientsArray && formData.pantryIngredientsArray.length > 0 && (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {formData.pantryIngredientsArray.map((ingredient, index) => (
                     <span 
                       key={index} 
-                      className="inline-flex items-center bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-sm border border-amber-200 group hover:bg-amber-200 transition-colors"
+                      className="inline-flex items-center text-stone-700 px-3 py-1.5 rounded-lg text-sm border group transition-colors"
+                      style={{ backgroundColor: '#EFE9DB', borderColor: '#D3C7A6', fontFamily: 'serif' }}
                     >
                       {ingredient}
                       <button
                         type="button"
                         onClick={() => removeIngredient(index)}
-                        className="ml-1.5 w-4 h-4 rounded-full inline-flex items-center justify-center text-amber-800/70 hover:bg-amber-300 hover:text-amber-900"
+                        className="ml-1.5 w-4 h-4 rounded-full inline-flex items-center justify-center text-stone-500 hover:bg-teal-100 hover:text-teal-700"
                         aria-label={`Remove ${ingredient}`}
                       >
                         ×
@@ -102,17 +108,17 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
         </div>
   
         <div className="mb-8">
-          <h3 className="text-xl font-serif text-amber-900 mb-4">Dietary Preferences</h3>
+          <h3 className="text-xl font-serif text-stone-700 mb-4 border-b border-stone-200 pb-2">Dietary Preferences</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {['gluten free', 'dairy free', 'vegan', 'vegetarian'].map((option) => (
-              <label key={option} className="flex items-center space-x-2 text-amber-800">
+              <label key={option} className="flex items-center space-x-2 text-stone-700 font-serif">
                 <input
                   type="checkbox"
                   name="dietary"
                   value={option}
                   checked={formData.dietary.includes(option)}
                   onChange={handleChange}
-                  className="form-checkbox h-5 w-5 text-amber-600 rounded border-amber-300"
+                  className="form-checkbox h-5 w-5 text-teal-600 rounded border-stone-300 focus:ring-teal-600"
                 />
                 <span className="capitalize">{option}</span>
               </label>
@@ -122,7 +128,7 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
   
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div>
-            <label className="block text-amber-900 mb-2 font-serif">
+            <label className="block text-stone-700 mb-2 font-serif">
               Servings
               <input
                 type="number"
@@ -131,18 +137,18 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
                 onChange={handleChange}
                 min="1"
                 required
-                className="w-full mt-1 p-2 border-2 border-amber-200 rounded-lg focus:border-amber-600 focus:outline-none"
+                className="w-full mt-1 p-2 border border-stone-300 rounded-lg focus:border-teal-600 focus:outline-none bg-white/80 text-stone-700"
               />
             </label>
           </div>
           <div>
-            <label className="block text-amber-900 mb-2 font-serif">
+            <label className="block text-stone-700 mb-2 font-serif">
               Difficulty
               <select
                 name="difficulty"
                 value={formData.difficulty}
                 onChange={handleChange}
-                className="w-full mt-1 p-2 border-2 border-amber-200 rounded-lg focus:border-amber-600 focus:outline-none"
+                className="w-full mt-1 p-2 border border-stone-300 rounded-lg focus:border-teal-600 focus:outline-none bg-white/80 text-stone-700"
               >
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
@@ -152,13 +158,13 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
           </div>
         </div>
 
-        <div className="mb-4">
-        <label className="block text-amber-800 mb-2">Number of Recipes (1-10)</label>
+        <div className="mb-6">
+        <label className="block text-stone-700 mb-2 font-serif">Number of Recipes (1-10)</label>
         <div className="flex items-center">
           <button 
             type="button"
             onClick={() => handleRecipeCountChange(formData.recipeCount - 1)}
-            className="bg-amber-500 text-white w-10 h-10 rounded-l flex items-center justify-center hover:bg-amber-600 transition"
+            className="bg-teal-600 text-white w-10 h-10 rounded-l flex items-center justify-center hover:bg-teal-700 transition"
             disabled={formData.recipeCount <= 1}
           >
             -
@@ -169,12 +175,12 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
             max="10"
             value={formData.recipeCount}
             onChange={(e) => handleRecipeCountChange(parseInt(e.target.value) || 1)}
-            className="w-16 h-10 text-center border-t border-b border-amber-300 focus:outline-none"
+            className="w-16 h-10 text-center border-t border-b border-stone-300 text-stone-700 focus:outline-none font-serif"
           />
           <button 
             type="button"
             onClick={() => handleRecipeCountChange(formData.recipeCount + 1)}
-            className="bg-amber-500 text-white w-10 h-10 rounded-r flex items-center justify-center hover:bg-amber-600 transition"
+            className="bg-teal-600 text-white w-10 h-10 rounded-r flex items-center justify-center hover:bg-teal-700 transition"
             disabled={formData.recipeCount >= 10}
           >
             +
@@ -184,7 +190,7 @@ export default function SearchForm({ formData, setFormData, handleSearch }) {
   
         <button 
           type="submit" 
-          className="w-full bg-amber-600 text-white p-4 rounded-lg hover:bg-amber-700 transition duration-300 font-medium text-lg"
+          className="w-full bg-teal-600 text-white p-4 rounded-lg hover:bg-teal-700 transition duration-300 font-medium text-lg font-serif shadow-sm"
         >
           Generate Recipes
         </button>
